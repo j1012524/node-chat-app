@@ -20,14 +20,10 @@ io.on('connection', (socket) => {
 
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'New User joined'));
 
-  socket.on('createMessage', (newMessage) => {
-    console.log('createMessage', newMessage);
-    io.emit('newMessage', generateMessage(newMessage.from, newMessage.text));
-    // socket.broadcast.emit('newMessage', {
-    //     from: newMessage.from,
-    //     test: newMessage.text,
-    //     createdAt: new Date().getTime()
-    // });
+  socket.on('createMessage', function (message, fn) {
+    console.log('createMessage', message);
+    io.emit('newMessage', generateMessage(message.from, message.text));
+    fn('this is from the server');
   });
 
   socket.on('disconnect', () => {
